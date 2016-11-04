@@ -40,7 +40,7 @@ def index():
             db.session.commit()
             new = True
     return render_template('index.html', form=form, name=name, new=new)
-
+##test
 
 if __name__ == '__main__':
     db.create_all()
