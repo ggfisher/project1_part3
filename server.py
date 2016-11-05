@@ -9,10 +9,10 @@ app = Flask(__name__, template_folder=tmpl_dir)
 
 
 engine = create_engine('postgresql://ggfisher:password@localhost:5432/mydatabase')
-engine.execute("""DROP TABLE IF EXISTS test;""")
-engine.execute("""CREATE TABLE IF NOT EXISTS test (id serial, name text );""")
+##engine.execute("""DROP TABLE IF EXISTS test;""")
+##engine.execute("""CREATE TABLE IF NOT EXISTS test (id serial, name text );""")
 
-engine.execute("""INSERT INTO test(name) VALUES ('grace hopper'), ('alan turing'), ('ada lovelace');""")
+#engine.execute("""INSERT INTO test(name) VALUES ('grace hopper'), ('alan turing'), ('ada lovelace');""")
 
 
 @app.before_request
@@ -54,7 +54,7 @@ def another():
 def add():
   name = request.form['name']
   print name
-  cmd = 'INSERT INTO test(name) VALUES (:name1), (:name2)';
+  cmd = 'INSERT INTO test(name) VALUES (:name1)';
   g.conn.execute(text(cmd), name1 = name, name2 = name);
   return redirect('/')
 
