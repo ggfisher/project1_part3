@@ -47,7 +47,14 @@ def index():
 
 @app.route('/another')
 def another():
-  return render_template("anotherfile.html")
+  cursor = g.conn.execute("SELECT * FROM test")
+  names = []
+  for result in cursor:
+    print result
+    names.append(result)  # can also be accessed using result[0]
+  cursor.close()
+ 
+  return render_template("anotherfile.html", names = names)
 
 
 @app.route('/add', methods=['POST'])
