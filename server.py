@@ -11,7 +11,6 @@ app = Flask(__name__, template_folder=tmpl_dir)
 engine = create_engine('postgresql://ggfisher:password@localhost:5432/mydatabase')
 ##engine.execute("""DROP TABLE IF EXISTS test;""")
 ##engine.execute("""CREATE TABLE IF NOT EXISTS test (id serial, name text );""")
-
 #engine.execute("""INSERT INTO test(name) VALUES ('grace hopper'), ('alan turing'), ('ada lovelace');""")
 
 
@@ -45,12 +44,36 @@ def index():
 
   return render_template("index.html", **context)
 
+
+@app.route('/select_swimmer')
+def select_swimmer():
+   return render_template('select_swimmer.html') 
+
+@app.route('/listtimes', methods = ['POST', 'GET'])
+def listtimes():
+  if request.method == 'POST':
+    try:
+        swimmername = request.form['nm']
+        cmd = "SELECT * FROM test WHERE name = 'grace hopper'"
+        #print cmd
+        cursor = g.conn.execute(text(cmd))
+        names = []
+        for result in cursor:
+          names.append(result)
+        cursor.close()
+    except:
+      print 'this'
+    finally:
+      print 'one'
+  #return redirect('/')
+  return render_template('/anotherfile.html', names = names)
+
+
 @app.route('/another')
 def another():
   cursor = g.conn.execute("SELECT * FROM test")
   names = []
   for result in cursor:
-    print result
     names.append(result)  # can also be accessed using result[0]
   cursor.close()
  
@@ -60,7 +83,6 @@ def another():
 @app.route('/add', methods=['POST'])
 def add():
   name = request.form['name']
-  print name
   cmd = 'INSERT INTO test(name) VALUES (:name1)';
   g.conn.execute(text(cmd), name1 = name, name2 = name);
   return redirect('/')
