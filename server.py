@@ -54,9 +54,9 @@ def listtimes():
   if request.method == 'POST':
     try:
         swimmername = request.form['nm']
-        cmd = "SELECT * FROM test WHERE name = 'grace hopper'"
+        cmd = 'SELECT * FROM test where name like :name1'
         #print cmd
-        cursor = g.conn.execute(text(cmd))
+        cursor = g.conn.execute(text(cmd), name1 = swimmername)
         names = []
         for result in cursor:
           names.append(result)
@@ -65,7 +65,6 @@ def listtimes():
       print 'this'
     finally:
       print 'one'
-  #return redirect('/')
   return render_template('/anotherfile.html', names = names)
 
 
