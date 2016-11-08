@@ -58,7 +58,7 @@ def listtimes():
         	cmd = 'SELECT * FROM swimmer'
         else:
         	cmd = 'SELECT * FROM swimmer where first_name like :name1'
-        #print cmd
+        print cmd
         cursor = g.conn.execute(text(cmd), name1 = swimmername)
         names = []
         for result in cursor:
