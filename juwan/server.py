@@ -54,9 +54,9 @@ def listtimes():
   if request.method == 'POST':
     try:
         swimmername = request.form['nm']
-        if not swimmername
+        if not swimmername:
         	cmd = 'SELECT * FROM swimmer'
-        else
+        else:
         	cmd = 'SELECT * FROM swimmer where first_name like :name1'
         #print cmd
         cursor = g.conn.execute(text(cmd), name1 = swimmername)
