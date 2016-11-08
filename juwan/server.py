@@ -34,10 +34,10 @@ def teardown_request(exception):
 def index():
   print request.args
   
-  cursor = g.conn.execute("SELECT name FROM test")
+  cursor = g.conn.execute("SELECT * FROM swimmer")
   names = []
   for result in cursor:
-    names.append(result['name'])  # can also be accessed using result[0]
+    names.append(result['first_name'])  # can also be accessed using result[0]
   cursor.close()
 
   context = dict(data = names)
@@ -54,7 +54,10 @@ def listtimes():
   if request.method == 'POST':
     try:
         swimmername = request.form['nm']
-        cmd = 'SELECT * FROM test where name like :name1'
+        if not swimmername
+        	cmd = 'SELECT * FROM swimmer'
+        else
+        	cmd = 'SELECT * FROM swimmer where first_name like :name1'
         #print cmd
         cursor = g.conn.execute(text(cmd), name1 = swimmername)
         names = []
