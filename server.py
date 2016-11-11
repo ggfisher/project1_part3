@@ -9,11 +9,6 @@ tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 app = Flask(__name__, template_folder=tmpl_dir)
 
 engine = create_engine('postgresql://jh3831:u8pvn@104.196.175.120:5432/postgres')
-#engine = create_engine('postgresql://ggfisher:password@localhost:5432/mydatabase')
-##engine.execute("""DROP TABLE IF EXISTS test;""")
-##engine.execute("""CREATE TABLE IF NOT EXISTS test (id serial, name text );""")
-#engine.execute("""INSERT INTO test(name) VALUES ('grace hopper'), ('alan turing'), ('ada lovelace');""")
-
 
 @app.before_request
 def before_request():
@@ -34,17 +29,17 @@ def teardown_request(exception):
 @app.route('/')
 def index():
   #print request.args
-  cursor = g.conn.execute("SELECT first_name, last_name, Free500 FROM swimmer, result where swimmer.swimmerid = result.swimmerid")
-  names = []
-  for result in cursor:
-     if (result[2] is not None): 
-         names.append(result)
-         print result[2]
-  cursor.close()
+#  cursor = g.conn.execute("SELECT first_name, last_name, Free500 FROM swimmer, result where swimmer.swimmerid = result.swimmerid")
+#  names = []
+#  for result in cursor:
+#     if (result[2] is not None): 
+#         names.append(result)
+#         print result[2]
+#  cursor.close()
 
-  context = dict(data = names)
+#  context = dict(data = names)
 
-  return render_template("index.html", **context)
+  return render_template("index.html")
 
 
 @app.route('/select_swimmer')
@@ -55,19 +50,32 @@ def select_swimmer():
 def listtimes():
   if request.method == 'POST':
     try:
-        swimmername = request.form['nm']
-        cmd = 'SELECT * FROM swimmer where first_name like :name1'
-        #print cmd
-        cursor = g.conn.execute(text(cmd), name1 = swimmername)
-        names = []
+        swimmername = request.form['swimmername']
+        eventtype = request.form['eventtype']
+        
+        if swimmername == '':
+            cmd = "SELECT first_name, last_name, Free500 FROM swimmer, result where swimmer.swimmerid = result.swimmerid"
+            cursor = g.conn.execute(text(cmd))
+        
+        if swimmername <> '':
+            cmd = "SELECT first_name, last_name, Free500 FROM swimmer, result where swimmer.swimmerid = result.swimmerid and swimmer.first_name like :name1"
+            cursor = g.conn.execute(text(cmd), name1 = swimmername)
+        
+        names = [] 
+        print cursor.rowcount
+        
         for result in cursor:
-          names.append(result)
+            if (result[2] is not None):
+                names.append(result)
         cursor.close()
+
+        context = dict(data = names)   
+
     except:
       print 'this'
     finally:
       print 'one'
-  return render_template('/anotherfile.html', names = names)
+  return render_template('/listswimtimes.html', **context)
 
 
 @app.route('/another')

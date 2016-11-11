@@ -1,0 +1,17 @@
+<h1>Swimtimes</h1>
+<hr>
+<table>
+    <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Time in Seconds</th>
+    </tr>
+    {% for swimmer in data %}
+    <tr>
+        <td>{{ swimmer[0] }}</td>
+        <td>{{ swimmer[1] }}</td>
+        <td>{{ swimmer[2] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
