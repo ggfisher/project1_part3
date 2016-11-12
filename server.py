@@ -64,11 +64,11 @@ def listtimes():
         	cursor = g.conn.execute(text(cmd), name1 = swimmername, event1 = eventtype)
         if (eventtype == '') & (swimmername == ''):
 			print '3'
-			md = "SELECT first_name, last_name, event, record FROM swimmer, result where swimmer.swimmerid = result.swimmerid"
-			cursor = g.conn.execute(text(cmd), name1 = swimmername)
+			cmd = "SELECT first_name, last_name, event, record FROM swimmer, result where swimmer.swimmerid = result.swimmerid"
+			cursor = g.conn.execute(text(cmd))
         if (eventtype == '') & (swimmername <> ''):
-			print '3'
-			md = "SELECT first_name, last_name, event, record FROM swimmer, result where swimmer.swimmerid = result.swimmerid and swimmer.first_name like :name1"
+			print '4'
+			cmd = "SELECT first_name, last_name, event, record FROM swimmer, result where swimmer.swimmerid = result.swimmerid and swimmer.first_name like :name1"
 			cursor = g.conn.execute(text(cmd), name1 = swimmername)
 
         names = [] 
