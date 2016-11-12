@@ -1,0 +1,41 @@
+CREATE TABLE RESULT(meetID varchar(40), swimmerID varchar(40), sex char(5), 
+                    age int, poolID int, event varchar(10), record TIME,
+                    PRIMARY KEY(meetID, swimmerID, event), FOREIGN KEY(swimmerID) REFERENCES SWIMMER, FOREIGN KEY(meetID, sex, age) REFERENCES MEET,FOREIGN KEY(poolID) REFERENCES POOL);
+
+
+
+
+
+
+INSERT INTO RESULT (meetID,swimmerID,sex,age,poolID,event,record) VALUES
+('Turkey Clause', 'J053002GABJFISH','M','13','5','Free50','00:00:25.48'),
+('Turkey Clause', 'J053002GABJFISH','M','13','5','Free100','00:00:53.76'),
+('Turkey Clause', 'J053002GABJFISH','M','13','5','Free200','00:01:57.03'),
+('Turkey Clause', 'J053002GABJFISH','M','13','5','Free500','00:05:16.58'),
+('PVS JO', 'J053002GABJFISH','M','13','4', 'Free100','00:00:53.86'),
+('PVS JO', 'J053002GABJFISH','M','13','4', 'Free500','00:05:16.73'),
+('IMX', 'K080202MARKBROW','M','13','4','Free50','00:00:24.50'),
+('IMX', 'K080202MARKBROW','M','13','4','Free500','00:06:01.47'),
+('Turkey Clause', 'K080202MARKBROW','M','13','5',Free100,'00:00:53.59'),
+('Turkey Clause', 'K080202MARKBROW','M','13','5',Free200,'00:02:04.36'),
+('PVS JO', 'K080202MARKBROW','M','13','4','Free50','00:00:24.50'),
+('PVS JO', 'K080202MARKBROW','M','13','4','Free100','00:00:54.30'),
+('Turkey Clause', 'J042502DYLJMAJO','M','13','5','Free50','00:00:29.21'),
+('Turkey Clause', 'J042502DYLJMAJO','M','13','5','Free200','00:02:16.67'),
+('Turkey Clause', 'J042502DYLJMAJO','M','13','5','Free500','00:05:54.79'),
+('IMX', 'J042502DYLJMAJO','M','13','4','Free500','00:05:57.00'),
+('NCAP Invitational', 'K060801ANTKARCO','M','14','4','Free50','00:00:25.3'),
+('NCAP Invitational', 'K060801ANTKARCO','M','14','4','Free100','00:00:52.26'),
+('NCAP Invitational', 'K060801ANTKARCO','M','14','4','Free200','00:01:52.12'),
+('PVS JO', 'K060801ANTKARCO','M','14','4','Free100','00:00:51.50'),
+('PVS JO', 'K060801ANTKARCO','M','14','4','Free200','00:01:52.11'),
+('Turkey Clause', 'W092401JOHWGIBS','M','13','5','Free50','00:00:25.21'),
+('Turkey Clause', 'W092401JOHWGIBS','M','13','5','Free200','00:02:12.67'),
+('Turkey Clause', 'W092401JOHWGIBS','M','13','5','Free500','00:05:28.19'),
+('Turkey Clause', 'S123102ANDSBERN','M','13','5','Free50','00:00:31.21'),
+('Turkey Clause', 'S123102ANDSBERN','M','13','5','Free100','00:00:59.59'),
+('Turkey Clause', 'S123102ANDSBERN','M','13','5','Free200','00:02:16.67'),
+('Turkey Clause', 'S123102ANDSBERN','M','13','5','Free500','00:06:03.49'),
+('Turkey Clause', 'R050102OLIRBERN','M','13','5','Free50','00:00:25.24'),
+('Turkey Clause', 'R050102OLIRBERN','M','13','5','Free200','00:02:11.67'),
+('Turkey Clause', 'R050102OLIRBERN','M','13','5','Free500','00:05:31.49');

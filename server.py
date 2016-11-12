@@ -49,22 +49,33 @@ def select_swimmer():
 @app.route('/listtimes', methods = ['POST', 'GET'])
 def listtimes():
   if request.method == 'POST':
+
     try:
         swimmername = request.form['swimmername']
         eventtype = request.form['eventtype']
         
-        if swimmername == '':
-            cmd = "SELECT first_name, last_name, Free500 FROM swimmer, result where swimmer.swimmerid = result.swimmerid"
-            cursor = g.conn.execute(text(cmd))
-        
-        if swimmername <> '':
-            cmd = "SELECT first_name, last_name, Free500 FROM swimmer, result where swimmer.swimmerid = result.swimmerid and swimmer.first_name like :name1"
-            cursor = g.conn.execute(text(cmd), name1 = swimmername)
-        
+        if (swimmername == '') & (eventtype <> ''):
+        	print '1'
+        	cmd = "SELECT first_name, last_name, event, record FROM swimmer, result where swimmer.swimmerid = result.swimmerid and result.event like :event1"
+        	cursor = g.conn.execute(text(cmd), event1 = eventtype)
+        if (swimmername <> '') & (eventtype <> ''):
+        	print '2'
+        	cmd = "SELECT first_name, last_name, event, record FROM swimmer, result where swimmer.swimmerid = result.swimmerid and swimmer.first_name like :name1 and result.event like :event1"
+        	cursor = g.conn.execute(text(cmd), name1 = swimmername, event1 = eventtype)
+        if (eventtype == '') & (swimmername == ''):
+			print '3'
+			md = "SELECT first_name, last_name, event, record FROM swimmer, result where swimmer.swimmerid = result.swimmerid"
+			cursor = g.conn.execute(text(cmd), name1 = swimmername)
+        if (eventtype == '') & (swimmername <> ''):
+			print '3'
+			md = "SELECT first_name, last_name, event, record FROM swimmer, result where swimmer.swimmerid = result.swimmerid and swimmer.first_name like :name1"
+			cursor = g.conn.execute(text(cmd), name1 = swimmername)
+
         names = [] 
         print cursor.rowcount
         
         for result in cursor:
+            print result
             if (result[2] is not None):
                 names.append(result)
         cursor.close()
