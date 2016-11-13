@@ -1,18 +1,21 @@
 <!doctype html>
 <html>
 
-<h3> Use this form to select a swimmer and the event for which you want to view the swimmers times </h3>
-<h3> If you want to see all swimmers in a particulat even, sorted from fastest to slowest, leave the swimmer Name field blank </h3>
+<h3> Use this form to select a pool and team to come up with lane assignment during practice. </h3>
+
 
    <body>
  
-      <form action = "{{ url_for('listtimes') }}" method = "POST">
+      <form action = "{{ url_for('laneassign') }}" method = "POST">
          Name<br>
-         <input type = "text" name = "swimmername" /></br>
+         <input type = "text" name = "poolname" /></br>
          
          
+         Team<br>
+         <input type = "text" name = "teamname" /></br>
+
          Event<br>
-         <select name = "eventtype">
+         <select name = "eventname">
             <option value="Free50"> Free50 </option>
             <option value="Free100"> Free100 </option>
             <option value="Free200"> Free200 </option>

@@ -56,19 +56,19 @@ def listtimes():
         
         if (swimmername == '') & (eventtype <> ''):
         	print '1'
-        	cmd = "SELECT first_name, last_name, event, record FROM swimmer, result where swimmer.swimmerid = result.swimmerid and result.event like :event1"
+        	cmd = "SELECT first_name, last_name, event, record FROM swimmer, result where swimmer.swimmerid = result.swimmerid and result.event like :event1 order by record asc"
         	cursor = g.conn.execute(text(cmd), event1 = eventtype)
         if (swimmername <> '') & (eventtype <> ''):
         	print '2'
-        	cmd = "SELECT first_name, last_name, event, record FROM swimmer, result where swimmer.swimmerid = result.swimmerid and swimmer.first_name like :name1 and result.event like :event1"
+        	cmd = "SELECT first_name, last_name, event, record FROM swimmer, result where swimmer.swimmerid = result.swimmerid and swimmer.first_name like :name1 and result.event like :event1 order by record asc"
         	cursor = g.conn.execute(text(cmd), name1 = swimmername, event1 = eventtype)
         if (eventtype == '') & (swimmername == ''):
 			print '3'
-			cmd = "SELECT first_name, last_name, event, record FROM swimmer, result where swimmer.swimmerid = result.swimmerid"
+			cmd = "SELECT first_name, last_name, event, record FROM swimmer, result where swimmer.swimmerid = result.swimmerid order by record asc"
 			cursor = g.conn.execute(text(cmd))
         if (eventtype == '') & (swimmername <> ''):
 			print '4'
-			cmd = "SELECT first_name, last_name, event, record FROM swimmer, result where swimmer.swimmerid = result.swimmerid and swimmer.first_name like :name1"
+			cmd = "SELECT first_name, last_name, event, record FROM swimmer, result where swimmer.swimmerid = result.swimmerid and swimmer.first_name like :name1 order by record asc"
 			cursor = g.conn.execute(text(cmd), name1 = swimmername)
 
         names = [] 
@@ -87,6 +87,43 @@ def listtimes():
     finally:
       print 'one'
   return render_template('/listswimtimes.html', **context)
+
+@app.route('/select_pool')
+def select_pool():
+   return render_template('select_pool.html')
+
+@app.route('/laneassign', methods = ['POST', 'GET'])
+def laneassign():
+  if request.method == 'POST':
+
+    try:
+        poolname = request.form['poolname']
+        teamname = request.form['teamname']
+        eventname = request.form['eventname']
+        
+        print poolname
+        print teamname
+        print eventname
+        cmd = "SELECT first_name, last_name, event, record FROM swimmer, result, swimmer_belongs_to, coach_belongs_to, coach_teaches_at where swimmer.swimmerid = result.swimmerid and result.event like :event1 and swimmer_belongs_to.swimmerid = swimmer.swimmerid and swimmer_belongs_to.teamid like :team1 and swimmer_belongs_to.teamid = coach_belongs_to.teamid and coach_teaches_at.coachid = coach_belongs_to.coachid and coach_teaches_at.poolid like :pool1 order by record asc"
+        cursor = g.conn.execute(text(cmd), event1 = eventname, pool1 = poolname, team1 = teamname)
+
+
+        names = [] 
+        print cursor.rowcount
+        
+        for result in cursor:
+            print result
+            if (result[2] is not None):
+                names.append(result)
+        cursor.close()
+
+        context = dict(data = names)   
+
+    except:
+      print 'this'
+    finally:
+      print 'one'
+  return render_template('/lane_assignment.html', **context)
 
 
 @app.route('/another')
