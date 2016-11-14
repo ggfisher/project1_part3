@@ -84,6 +84,7 @@ def listtimes():
 
     except:
       print 'this'
+      g.conn.close();
     finally:
       print 'one'
   return render_template('/listswimtimes.html', **context)
@@ -97,16 +98,15 @@ def laneassign():
   if request.method == 'POST':
 
     try:
-        poolname = request.form['poolname']
+        poollanes = request.form['poollanes']
         teamname = request.form['teamname']
         eventname = request.form['eventname']
         
-        print poolname
+        print poollanes
         print teamname
         print eventname
-        cmd = "SELECT first_name, last_name, event, record FROM swimmer, result, swimmer_belongs_to, coach_belongs_to, coach_teaches_at where swimmer.swimmerid = result.swimmerid and result.event like :event1 and swimmer_belongs_to.swimmerid = swimmer.swimmerid and swimmer_belongs_to.teamid like :team1 and swimmer_belongs_to.teamid = coach_belongs_to.teamid and coach_teaches_at.coachid = coach_belongs_to.coachid and coach_teaches_at.poolid like :pool1 order by record asc"
-        cursor = g.conn.execute(text(cmd), event1 = eventname, pool1 = poolname, team1 = teamname)
-
+        cmd = "SELECT DISTINCT first_name, last_name, event, record FROM swimmer, result where swimmer.swimmerid = result.swimmerid and result.event = :event1 order by record asc"
+        cursor = g.conn.execute(text(cmd), event1 = eventname)
 
         names = [] 
         print cursor.rowcount
@@ -117,7 +117,18 @@ def laneassign():
                 names.append(result)
         cursor.close()
 
-        context = dict(data = names)   
+        cmd2 = "SELECT team_name FROM team WHERE team.teamid = :team1"
+        cursor2 =  g.conn.execute(text(cmd2), team1 = teamname)
+        
+        teams = []
+        #print cursor2[0]
+        for result in cursor2:
+        	print result[0]
+        	if (result[0] is not None):
+        		teams.append(result[0])
+        cursor2.close()
+
+        context = dict(data = names, team = teams, lanes = poollanes)   
 
     except:
       print 'this'

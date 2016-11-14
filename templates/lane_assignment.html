@@ -1,20 +1,31 @@
 <h1>Lane Assignment</h1>
 <hr>
+{% for teamname in team %}
+<h2> Team: {{team[0]}} </h2>
+{% endfor %}
 <table>
     <tr>
         <th>First Name   </th>
         <th>Last Name    </th>
         <th>Event Type   </th>
         <th>Time in Seconds</th>
+        <th>Lane</th>
     </tr>
+    {% set lane = 0 %}
     {% for swimmer in data %}
+    {% set ans = lane%(lanes|int) %}
     <tr>
         <td>{{ swimmer[0] }}</td>
         <td>{{ swimmer[1] }}</td>
         <td>{{ swimmer[2] }}</td>
         <td>{{ swimmer[3] }}</td>
+        <td>{{ ans+1 }}  </td>
     </tr>
+    {% set lane = lane+1 %}
     {% endfor %}
+</table>
+
+
 
 <p><a href="/">Return to Index</a></p>
 <p><a href="/select_pool">Lane Assignment</a</p>

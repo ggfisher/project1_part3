@@ -7,11 +7,11 @@
    <body>
  
       <form action = "{{ url_for('laneassign') }}" method = "POST">
-         Name<br>
-         <input type = "text" name = "poolname" /></br>
+         Number of Lanes in Pool<br>
+         <input type = "number" name = "poollanes" /></br>
          
          
-         Team<br>
+         Team ID<br>
          <input type = "text" name = "teamname" /></br>
 
          Event<br>
@@ -20,7 +20,6 @@
             <option value="Free100"> Free100 </option>
             <option value="Free200"> Free200 </option>
             <option value="Free500"> Free500 </option>
-            <option value=""> All Events </option>
          </select>
          
  <!--        PINCODE<br>
