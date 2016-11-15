@@ -75,7 +75,6 @@ def listtimes():
         print cursor.rowcount
         
         for result in cursor:
-            print result
             if (result[2] is not None):
                 names.append(result)
         cursor.close()
@@ -93,6 +92,15 @@ def listtimes():
 def select_pool():
    return render_template('select_pool.html')
 
+
+def f2(seq):
+    checked = []
+    for e in seq:
+        print e[0]
+        if e[0] not in checked:
+            checked.append(e)
+    return checked
+
 @app.route('/laneassign', methods = ['POST', 'GET'])
 def laneassign():
   if request.method == 'POST':
@@ -102,33 +110,33 @@ def laneassign():
         teamname = request.form['teamname']
         eventname = request.form['eventname']
         
-        print poollanes
-        print teamname
-        print eventname
+#        print poollanes
+#        print teamname
+#        print eventname
         cmd = "SELECT DISTINCT first_name, last_name, event, record FROM swimmer, result where swimmer.swimmerid = result.swimmerid and result.event = :event1 order by record asc"
         cursor = g.conn.execute(text(cmd), event1 = eventname)
 
         names = [] 
-        print cursor.rowcount
         
         for result in cursor:
-            print result
+#            print result
             if (result[2] is not None):
                 names.append(result)
         cursor.close()
+        
+        remove_dups = f2(names)
 
         cmd2 = "SELECT team_name FROM team WHERE team.teamid = :team1"
         cursor2 =  g.conn.execute(text(cmd2), team1 = teamname)
         
         teams = []
-        #print cursor2[0]
         for result in cursor2:
-        	print result[0]
         	if (result[0] is not None):
-        		teams.append(result[0])
+                        teams.append(result[0])
         cursor2.close()
 
-        context = dict(data = names, team = teams, lanes = poollanes)   
+#        context = dict(data = names, team = teams, lanes = poollanes)   
+        context = dict(data = remove_dups, team = teams, lanes = poollanes)
 
     except:
       print 'this'
