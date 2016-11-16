@@ -1,18 +1,27 @@
 <html>
   <style>
     body{ 
-      font-size: 15pt;
       font-family: arial;
+      
+    }
+    form{
+    	vertical-align: middle;
+    }
+    input{
+    	font-size: 40pt;
     }
   </style>
 
 
 <body>
 
+<form action = "/select_swimmer">
+	<input type="submit" value = "Search Results"/>
+</form>
 
-<p><a href="/select_swimmer">Search Results</a></p>
-
-<p><a href="/select_pool">Practice Lane Assignment</a></p>
+<form action = "/select_pool">
+	<input type="submit" value="Practice Lane Assignment"/>
+</form>
 
 
 </body>

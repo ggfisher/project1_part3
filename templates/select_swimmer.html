@@ -1,13 +1,16 @@
 <!doctype html>
 <html>
+   <style>
+      font-size: 40pt;
+   </style>
 
-<h3> Use this form to select a swimmer and the event for which you want to view the swimmers times </h3>
-<h3> If you want to see all swimmers in a particulat even, sorted from fastest to slowest, leave the swimmer Name field blank </h3>
+
+<h3> Select Swimmer Records </h3>
 
    <body>
  
       <form action = "{{ url_for('listtimes') }}" method = "POST">
-         Name<br>
+         First Name<br>
          <input type = "text" name = "swimmername" /></br>
          
          
@@ -19,9 +22,7 @@
             <option value="Free500"> Free500 </option>
             <option value=""> All Events </option>
          </select>
-         
- <!--        PINCODE<br>
-         <input type = "text" name = "pin" /><br>-->
+
          <input type = "submit" value = "submit" /><br>
       </form>
 <p><a  href="/">Return to Index</a></p>     
