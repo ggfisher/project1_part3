@@ -105,11 +105,12 @@ def select_pool():
 
 def f2(seq):
     checked = []
+    out = []
     for e in seq:
-        print e[0]
         if e[0] not in checked:
-            checked.append(e)
-    return checked
+            checked.append(e[0])
+            out.append(e)
+    return out
 
 @app.route('/laneassign', methods = ['POST', 'GET'])
 def laneassign():
@@ -119,12 +120,14 @@ def laneassign():
         poollanes = request.form['poollanes']
         teamname = request.form['teamname']
         eventname = request.form['eventname']
-        
+
+        if (poollanes == '') | (teamname == ''):
+            return render_template('/lane_assignment.html')
 #        print poollanes
 #        print teamname
 #        print eventname
-        cmd = "SELECT DISTINCT first_name, last_name, event, record FROM swimmer, result where swimmer.swimmerid = result.swimmerid and result.event = :event1 order by record asc"
-        cursor = g.conn.execute(text(cmd), event1 = eventname)
+        cmd = "SELECT DISTINCT first_name, last_name, event, record FROM swimmer, result, swimmer_belongs_to where swimmer.swimmerid = result.swimmerid and result.event = :event1 and swimmer_belongs_to.swimmerid = swimmer.swimmerid and swimmer_belongs_to.teamid = :team1 order by record asc"
+        cursor = g.conn.execute(text(cmd), event1 = eventname, team1 = teamname)
 
         names = [] 
         
