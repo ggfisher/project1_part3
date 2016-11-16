@@ -26,15 +26,25 @@ def teardown_request(exception):
   except Exception as e:
     pass
 
+
+@app.route('/pool_assignment')
+def listswimmerandpool():
+  cursor = g.conn.execute("SELECT swimmer.first_name, swimmer.last_name, coach.first_name, coach.last_name, pool.name, pool.location from swimmer, coach, SWIMMER_LEARNS_FROM, pool, COACH_TEACHES_AT where SWIMMER_LEARNS_FROM.swimmerID = swimmer.swimmerID and swimmer_learns_from.coachID = coach.coachID and coach.coachID = COACH_TEACHES_AT.coachID and coach_teaches_at.poolID = pool.poolID")
+  names = []
+  for result in cursor:
+      names.append(result)
+  cursor.close()
+
+  context = dict(data = names)
+  return render_template("pool_assignment.html", **context)
+
+
 @app.route('/')
 def index():
-  #print request.args
-#  cursor = g.conn.execute("SELECT first_name, last_name, Free500 FROM swimmer, result where swimmer.swimmerid = result.swimmerid")
+#  cursor = g.conn.execute("SELECT swimmer.first_name, swimmer.last_name, coach.first_name, coach.last_name, pool.name, pool.location from swimmer, coach, SWIMMER_LEARNS_FROM, pool, COACH_TEACHES_AT where SWIMMER_LEARNS_FROM.swimmerID = swimmer.swimmerID and swimmer_learns_from.coachID = coach.coachID and coach.coachID = COACH_TEACHES_AT.coachID and coach_teaches_at.poolID = pool.poolID")
 #  names = []
 #  for result in cursor:
-#     if (result[2] is not None): 
-#         names.append(result)
-#         print result[2]
+#      names.append(result)
 #  cursor.close()
 
 #  context = dict(data = names)

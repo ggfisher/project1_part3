@@ -1,0 +1,25 @@
+<h1>Swimmer, Coach and Pool Assignment</h1>
+<hr>
+<table>
+    <tr>
+        <th>Swimmer First Name   </th>
+        <th>Swimmer Last Name    </th>
+        <th>Coach First Name  </th>
+        <th>Coach Last Name</th>
+        <th>Pool Name  </th>
+        <th>Pool Location </th>
+    </tr>
+    {% for swimmer in data %}
+    <tr>
+        <td>{{ swimmer[0] }}</td>
+        <td>{{ swimmer[1] }}</td>
+        <td>{{ swimmer[2] }}</td>
+        <td>{{ swimmer[3] }}</td>
+        <td>{{ swimmer[4] }}</td>
+        <td>{{ swimmer[5] }}</td>
+
+    </tr>
+    {% endfor %}
+
+<p><a href="/">Return to Index</a></p>
+
